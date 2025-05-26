@@ -1,0 +1,1 @@
+-- LuCI controller for easyclashtool (placeholder)
