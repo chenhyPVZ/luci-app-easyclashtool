@@ -1,0 +1,44 @@
+name: Build luci-app-easyclashtool IPK
+
+on:
+  push:
+    branches: [ "main" ]
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target:
+          - arm_cortex-a7
+          - arm_cortex-a9
+          - arm_cortex-a53
+          - arm_cortex-a15_neon-vfpv4
+          - aarch64_generic
+          - x86_64
+          - x86_geode
+          - riscv64_generic
+          - powerpc_8540
+          - octeon
+          - arc
+    name: Build for ${{ matrix.target }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up environment
+        run: sudo apt update && sudo apt install -y unzip wget python3
+
+      - name: Build IPK for ${{ matrix.target }}
+        run: |
+          chmod +x ./scripts/build-openwrt-ipk.sh
+          ./scripts/build-openwrt-ipk.sh ${{ matrix.target }}
+
+      - name: Upload built IPKs
+        uses: actions/upload-artifact@v3
+        with:
+          name: ipk-${{ matrix.target }}
+          path: bin/packages/*/*.ipk
