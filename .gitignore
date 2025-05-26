@@ -1,0 +1,26 @@
+# macOS 系统垃圾文件
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# OpenWrt 编译目录
+bin/
+build_dir/
+staging_dir/
+tmp/
+feeds/
+*.ipk
+
+# Logs
+*.log
+
+# LuCI 自动生成的 .luac 文件
+*.luac
+
+# GitHub Actions 下载内容
+__pycache__/
+*.pyc
+
+# 忽略 SDK 下载和解压
+openwrt-sdk-*/
+*.tar.xz
